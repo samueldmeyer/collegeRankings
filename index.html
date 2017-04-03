@@ -14,9 +14,10 @@ svg {
 
 .foreground path {
   fill: none;
-  stroke: steelblue;
-}
+  stroke: #D40902;
 
+}
+/* changes the look of the filtering box*/
 .brush .extent {
   fill-opacity: .3;
   stroke: #fff;
@@ -31,13 +32,30 @@ svg {
 }
 
 .axis text {
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff; 
   cursor: move;
+  font-weight: bold;
+}
+
+.tooltip {   
+
+background-color: rgba(220,220,220, .8);
+color: #333;
+text-align: center;
+          margin: 10px;
+          /*height: 100px;*/
+          padding-right: 10px;
+          padding-left: 10px; 
+          padding-top: 10px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
 }
 
 </style>
 <body>
 <script src="//d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script>
 
 var margin = {top: 30, right: 10, bottom: 10, left: 10},
@@ -58,6 +76,19 @@ var svg = d3.select("body").append("svg")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var color_set = d3.scale.linear()
+  .range(["#D40902", "#948C8B"]);
+
+var tooltip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .text("a simple tooltip")
+    .attr("class","tooltip");
+
+
 
 d3.csv("timesData_filtered.csv", function(error, universities) {
 
@@ -84,7 +115,25 @@ d3.csv("timesData_filtered.csv", function(error, universities) {
     .selectAll("path")
       .data(universities)
     .enter().append("path")
-      .attr("d", path);
+      .attr("d", path)
+
+      // Add tooltip
+    .on("mouseover", function(d){
+        d3.select(this).transition().duration(100)
+          .style({'stroke' : 'blue'})
+          .style({'stroke-width' : '4'});
+        tooltip.text( d.university_name);
+          return tooltip.style("visibility", "visible");
+              })
+    .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(   event.pageX+10)+"px");})
+
+    .on("mouseout", function(d){
+        d3.select(this).transition().duration(100)
+        .style({'stroke': "#D40902" })
+        .style({'stroke-width' : '1'});
+  return tooltip.style("visibility", "hidden");
+    })
+    ;
 
   // Add a group element for each dimension.
   var g = svg.selectAll(".dimension")
@@ -114,7 +163,8 @@ d3.csv("timesData_filtered.csv", function(error, universities) {
             .transition()
               .delay(500)
               .duration(0)
-              .attr("visibility", null);
+              .attr("visibility", null)
+
         }));
 
   // Add an axis and title.
