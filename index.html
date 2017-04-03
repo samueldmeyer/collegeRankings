@@ -14,7 +14,7 @@ svg {
 
 .foreground path {
   fill: none;
-  stroke: #D40902;
+  stroke-width: 1.5;
 
 }
 /* changes the look of the filtering box*/
@@ -77,8 +77,10 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+/* Decided against color
 var color_set = d3.scale.linear()
-  .range(["#D40902", "#948C8B"]);
+  .domain([1,25])
+  .range(["#D40902", "#E4DD39"]); */
 
 var tooltip = d3.select("body")
     .append("div")
@@ -109,6 +111,7 @@ d3.csv("timesData_filtered.csv", function(error, universities) {
     .enter().append("path")
       .attr("d", path);
 
+
   // Add blue foreground lines for focus.
   foreground = svg.append("g")
       .attr("class", "foreground")
@@ -116,23 +119,25 @@ d3.csv("timesData_filtered.csv", function(error, universities) {
       .data(universities)
     .enter().append("path")
       .attr("d", path)
+       .attr('stroke', 'grey')
 
       // Add tooltip
     .on("mouseover", function(d){
         d3.select(this).transition().duration(100)
-          .style({'stroke' : 'blue'})
+          .style({'stroke' : '#4CC76D'})
           .style({'stroke-width' : '4'});
-        tooltip.text( d.university_name);
+        tooltip.html( d.university_name +" " +"Rank: " + d.world_rank);
           return tooltip.style("visibility", "visible");
               })
     .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(   event.pageX+10)+"px");})
 
     .on("mouseout", function(d){
         d3.select(this).transition().duration(100)
-        .style({'stroke': "#D40902" })
-        .style({'stroke-width' : '1'});
+        .style({'stroke': "grey" })
+        .style({'stroke-width' : '1.5'});
   return tooltip.style("visibility", "hidden");
     })
+
     ;
 
   // Add a group element for each dimension.
