@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<body>
+<select id="university-select">
+  <!-- <option value="test">Volvo</option> -->
+</select>
+<div class="chart-container"></div>
+<link href="/radar-chart.css" rel="stylesheet">
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="/radar-chart.js"></script>
+<script>
+data = [];
+
+d3.csv("timesData_filtered.csv", function(error, universities) {
+
+  var conversions = {};
+  for (var d in universities[0]) {
+    conversions[d] = d3.scale.linear()
+    .domain(d3.extent(universities, function(p) { return +p[d]; }))
+    .range([100, 0]);
+  }
+  // debugger;
+  // var conversions = d3.keys(universities[0]).map(function(d) {
+  //   return d3.scale.linear()
+  //   .domain(d3.extent(universities, function(p) { return +p[d]; }))
+  //   .range([100, 0])
+  // });
+  // debugger;
+
+  var getLocalPosition = function(type, i) {
+    return conversions[type](universities[i][type]);
+  };
+
+  for (var i = 0; i < universities.length; i++) {
+    var option = document.createElement("option");
+    option.text = universities[i]['university_name'];
+    option.value = universities[i]['university_name'];
+    var select = document.getElementById("university-select");
+    select.appendChild(option);
+    data.push({
+      className: universities[i]['university_name'],
+      axes: [
+        {axis: "Citations", value: getLocalPosition('citations', i)},
+        // {axis: "Citations", value: universities[i]['citations']},
+        {axis: "Income", value: getLocalPosition('income', i)},
+        {axis: "International", value: getLocalPosition('international', i)},
+        {axis: "Research", value: getLocalPosition('research', i)},
+        {axis: "Teaching", value: getLocalPosition('teaching', i)}
+      ]
+    });
+  }
+  RadarChart.draw(".chart-container", data);
+});
+
+
+</script>
