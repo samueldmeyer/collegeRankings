@@ -53,6 +53,7 @@ text-align: center;
 }
 
 </style>
+<a href="radar-chart.html">here</a>
 <body>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
@@ -92,7 +93,7 @@ var tooltip = d3.select("body")
 
 
 
-d3.csv("timesData_filtered.csv", function(error, universities) {
+d3.csv("timesData_parallel.csv", function(error, universities) {
 
   // Extract the list of dimensions and create a scale for each.
   x.domain(dimensions = d3.keys(universities[0]).filter(function(d) {
