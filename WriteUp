@@ -1,4 +1,8 @@
-Drop industry because it's a samll part of the overall score. 
-Research, citations, teaching, as each make up 30% of overall scroe. 
+Our code is based on modifications to both the parallel and radar graphs. We chose to include only data on the top 25 schools from 2016 to limit the data to a manageable set of information.
 
-Tooltip source code : http://bl.ocks.org/ABSegler/9791707
+In the parallel coordinates graph, we chose a set of variables that would allow users to compare variables such as male-female ratios to other variables in the chart. Because the parallel coordinates can be rearranged, we used 7 variables and expect users to move them around to look for correlations. We removed a few variables that we felt were less relevant. After researching where the data came from, we realized that while research, citations, and teaching each counted toward 30% of the total score, international focus and industry income were weighted much less heavily, so we excluded them. We added a tooltip to let users see which school is hovered over and it’s overall rank. Colors were chosen to be clearly visible, and highlight with the tooltip so it’s possible to see the general profile of a certain school.
+
+In the radar chart, we chose the 5 calculated variables for college rankings to let users see which schools rank highest in the different categories. Radar charts are often used to compare strengths along different dimensions, so we chose to limit the variables to the indexed scores. We added a select dropdown to let users select which school to compare to the average, since showing all schools at once is overwhelming. By comparing to the average, the user can get a sense of a given school’s relative strengths.
+
+
+Tooltip code was borrowed from: http://bl.ocks.org/ABSegler/9791707

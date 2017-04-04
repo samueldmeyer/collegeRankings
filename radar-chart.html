@@ -3,7 +3,7 @@
 
 <body>
 <select id="university-select">
-  <!-- <option value="test">Volvo</option> -->
+  <option value="">Select a university</option>
 </select>
 <div class="chart-container"></div>
 <link href="/radar-chart.css" rel="stylesheet">
@@ -11,10 +11,10 @@
 <script src="/radar-chart.js"></script>
 <script>
 data = [];
+var select = document.getElementById("university-select");
+var conversions = {};
 
 d3.csv("timesData_filtered.csv", function(error, universities) {
-
-  var conversions = {};
   for (var d in universities[0]) {
     conversions[d] = d3.scale.linear()
     .domain(d3.extent(universities, function(p) { return +p[d]; }))
@@ -36,13 +36,13 @@ d3.csv("timesData_filtered.csv", function(error, universities) {
     var option = document.createElement("option");
     option.text = universities[i]['university_name'];
     option.value = universities[i]['university_name'];
-    var select = document.getElementById("university-select");
+
     select.appendChild(option);
     data.push({
       className: universities[i]['university_name'],
       axes: [
-        {axis: "Citations", value: getLocalPosition('citations', i)},
         // {axis: "Citations", value: universities[i]['citations']},
+        {axis: "Citations", value: getLocalPosition('citations', i)},
         {axis: "Income", value: getLocalPosition('income', i)},
         {axis: "International", value: getLocalPosition('international', i)},
         {axis: "Research", value: getLocalPosition('research', i)},
@@ -51,7 +51,37 @@ d3.csv("timesData_filtered.csv", function(error, universities) {
     });
   }
   RadarChart.draw(".chart-container", data);
+  select.addEventListener('change', drawChart, false);
 });
+
+function drawChart() {
+  targetSet = [{
+    className: 'Average',
+    axes: [
+      // {axis: "Citations", value: universities[i]['citations']},
+      {axis: "Citations", value: conversions['citations'](97.34)},
+      {axis: "Income", value: conversions['income'](59.41)},
+      {axis: "International", value: conversions['international'](73.64)},
+      {axis: "Research", value: conversions['research'](88.92)},
+      {axis: "Teaching", value: conversions['teaching'](80.82)}
+    ]
+  }];
+  for (var i = 0; i < data.length; i++) {
+    if (data[i]['className'] == select.value) {
+      targetSet.push(data[i]);
+    }
+  }
+
+  // var chart = RadarChart.chart();
+  // var svg = d3.select('body').append('svg')
+  //   .attr('width', 600)
+  //   .attr('height', 800);
+  //
+  // // draw one
+  // svg.append('g').classed('focus', 1).datum(targetSet).call(chart);
+
+  var chart = RadarChart.draw(".chart-container", targetSet);
+}
 
 
 </script>

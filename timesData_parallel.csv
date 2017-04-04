@@ -1,4 +1,4 @@
-world_rank,university_name,Teaching Score,International Score,Research Score,Citation Score,income,Total Score,Number of Students,Student to Staff Ratio,Female Student %,International Student %
+world_rank,university_name,Teaching Score,international,Research Score,Citation Score,income,Total Score,num_students,Student to Staff Ratio,Female Student %,International Student %
 1,California Institute of Technology,95.6,64,97.6,99.8,97.8,95.2,2243,6.9,33,27
 2,University of Oxford,86.5,94.4,98.9,98.8,73.1,94.2,19919,11.6,46,34
 3,Stanford University,92.5,76.3,96.2,99.9,63.3,93.9,15596,7.8,42,22
