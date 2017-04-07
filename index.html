@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<!-- Page based on http://bl.ocks.org/jasondavies/1341281 -->
 <style>
 
 h1, a {
@@ -60,7 +61,7 @@ text-align: center;
 
 </style>
 <body>
-  <h1>University Data Parallel Coordinates Graph</h1>
+  <h1>University Ranking Parallel Coordinates Graph</h1>
   <a href="./radar-chart.html">Go To Radar Chart</a>
   <div></div>
 <script src="//d3js.org/d3.v3.min.js"></script>
@@ -85,11 +86,7 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-/* Decided against color
-var color_set = d3.scale.linear()
-  .domain([1,25])
-  .range(["#D40902", "#E4DD39"]); */
-
+// http://bl.ocks.org/ABSegler/9791707
 var tooltip = d3.select("body")
     .append("div")
     .style("position", "absolute")

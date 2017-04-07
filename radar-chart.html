@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-
+<!-- Radar chart based on https://github.com/alangrafu/radar-chart-d3 -->
 <body>
 
   <a href="./">Back to Parallel Coordinates Graph</a>
-  <h1>University Data Radar Chart</h1>
+  <h1>University Ranking Radar Chart</h1>
 <select id="university-select">
   <option value="">Select a university</option>
 </select>
@@ -19,6 +19,7 @@ data = [];
 var select = document.getElementById("university-select");
 var conversions = {};
 
+// Initial load to get data in memory and show all universities
 d3.csv("timesData_filtered.csv", function(error, universities) {
   for (var d in universities[0]) {
     conversions[d] = d3.scale.linear()
@@ -26,6 +27,7 @@ d3.csv("timesData_filtered.csv", function(error, universities) {
     .range([100, 0]);
   }
 
+  // Scale scores to same scale
   var getLocalPosition = function(type, i) {
     return conversions[type](universities[i][type]);
   };
@@ -52,6 +54,8 @@ d3.csv("timesData_filtered.csv", function(error, universities) {
   select.addEventListener('change', drawChart, false);
 });
 
+// Code for drawing a single school compared to the average.
+// Average values were calculated (and scaled) externally.
 function drawChart() {
   targetSet = [{
     className: 'Average',
