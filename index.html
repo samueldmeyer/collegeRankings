@@ -2,6 +2,10 @@
 <meta charset="utf-8">
 <style>
 
+h1, a {
+  font-family: sans-serif;
+}
+
 svg {
   font: 10px sans-serif;
 }
@@ -32,31 +36,34 @@ svg {
 }
 
 .axis text {
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff; 
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
   cursor: move;
   font-weight: bold;
 }
 
-.tooltip {   
+.tooltip {
 
-background-color: rgba(220,220,220, .8);
-color: #333;
+background-color: rgba(85, 85, 85, .7);
+color: white;
+font-family: sans-serif;
 text-align: center;
           margin: 10px;
           /*height: 100px;*/
           padding-right: 10px;
-          padding-left: 10px; 
-          padding-top: 10px;
+          padding-left: 10px;
+          padding-top: 5px;
+          padding-bottom: 5px;
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;
 }
 
 </style>
-<a href="radar-chart.html">Radar Chart</a>
 <body>
+  <h1>University Data Parallel Coordinates Graph</h1>
+  <a href="/radar-chart.html">Go To Radar Chart</a>
+  <div></div>
 <script src="//d3js.org/d3.v3.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script>
 
 var margin = {top: 30, right: 10, bottom: 10, left: 10},
@@ -127,7 +134,7 @@ d3.csv("timesData_parallel.csv", function(error, universities) {
         d3.select(this).transition().duration(100)
           .style({'stroke' : '#4CC76D'})
           .style({'stroke-width' : '4'});
-        tooltip.html( d.university_name +" " +"Rank: " + d.world_rank);
+        tooltip.html( d.university_name +" " +"(Rank: " + d.world_rank + ")");
           return tooltip.style("visibility", "visible");
               })
     .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(   event.pageX+10)+"px");})

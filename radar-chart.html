@@ -2,14 +2,19 @@
 <meta charset="utf-8">
 
 <body>
+
+  <a href="/">Back to Parallel Coordinates Graph</a>
+  <h1>University Data Radar Chart</h1>
 <select id="university-select">
   <option value="">Select a university</option>
 </select>
+<p>Once you select a university, it is compared to the average.</p>
 <div class="chart-container"></div>
 <link href="/radar-chart.css" rel="stylesheet">
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="/radar-chart.js"></script>
 <script>
+//Custom code below
 data = [];
 var select = document.getElementById("university-select");
 var conversions = {};
@@ -20,13 +25,6 @@ d3.csv("timesData_filtered.csv", function(error, universities) {
     .domain(d3.extent(universities, function(p) { return +p[d]; }))
     .range([100, 0]);
   }
-  // debugger;
-  // var conversions = d3.keys(universities[0]).map(function(d) {
-  //   return d3.scale.linear()
-  //   .domain(d3.extent(universities, function(p) { return +p[d]; }))
-  //   .range([100, 0])
-  // });
-  // debugger;
 
   var getLocalPosition = function(type, i) {
     return conversions[type](universities[i][type]);
@@ -72,16 +70,7 @@ function drawChart() {
     }
   }
 
-  // var chart = RadarChart.chart();
-  // var svg = d3.select('body').append('svg')
-  //   .attr('width', 600)
-  //   .attr('height', 800);
-  //
-  // // draw one
-  // svg.append('g').classed('focus', 1).datum(targetSet).call(chart);
-
   var chart = RadarChart.draw(".chart-container", targetSet);
 }
-
 
 </script>
