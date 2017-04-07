@@ -21,13 +21,13 @@ var conversions = {};
 
 // Initial load to get data in memory and show all universities
 d3.csv("timesData_filtered.csv", function(error, universities) {
+  // Scale scores to same scale
   for (var d in universities[0]) {
     conversions[d] = d3.scale.linear()
     .domain(d3.extent(universities, function(p) { return +p[d]; }))
-    .range([100, 0]);
+    .range([0, 100]);
   }
 
-  // Scale scores to same scale
   var getLocalPosition = function(type, i) {
     return conversions[type](universities[i][type]);
   };
